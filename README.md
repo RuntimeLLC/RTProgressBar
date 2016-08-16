@@ -2,8 +2,8 @@
 Simple progress bar control in Swift for macOS
 
 # Example
-<img src="https://raw.githubusercontent.com/RuntimeLLC/RTProgressBar/master/RTProgressBar/Resources/determinate.gif">
-<img src="https://raw.githubusercontent.com/RuntimeLLC/RTProgressBar/master/RTProgressBar/Resources/indeterminate.gif">
+<img src="https://raw.githubusercontent.com/RuntimeLLC/RTProgressBar/master/images/determinate.gif">
+<img src="https://raw.githubusercontent.com/RuntimeLLC/RTProgressBar/master/images/indeterminate.gif">
 
 # Usage
 ``` swift

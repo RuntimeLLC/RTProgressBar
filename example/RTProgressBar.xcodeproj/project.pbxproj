@@ -145,7 +145,8 @@
 			children = (
 				9DF2E34B1D4F5D390091EFF1 /* RTProgressBar.swift */,
 			);
-			path = RTProgressBar;
+			name = RTProgressBar;
+			path = ../../src;
 			sourceTree = "<group>";
 		};
 		9DF2E34F1D4F5D570091EFF1 /* Resources */ = {
