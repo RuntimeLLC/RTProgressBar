@@ -10,10 +10,10 @@ Pod::Spec.new do |spec|
     spec.license = 'MIT'
     spec.author = { 'Daniyar Salakhutdinov' => 'bluesbastards@gmail.com' }
     
-    spec.source = { :git => 'https://github.com/RuntimeLLC/RTProgressBar.git', :tag => s.version.to_s }
+    spec.source = { :git => 'https://github.com/RuntimeLLC/RTProgressBar.git', :tag => "v#{spec.version}" }
     spec.source_files = 'src'
     spec.frameworks = 'QuartzCore', 'Cocoa'
     
-    spec.platform = :osx, '10.8'
+    spec.platform = :osx, '10.9'
     spec.requires_arc = true
 end
