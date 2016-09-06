@@ -11,7 +11,7 @@ import QuartzCore
 
 let kRTProgressBarMaxProgressValue: Double = 100
 
-class RTProgressBar: NSView {
+public class RTProgressBar: NSView {
     
     private let sublayer = CALayer()
     private let inlayer = CAGradientLayer()
@@ -27,25 +27,25 @@ class RTProgressBar: NSView {
         }
     }
     
-    var color: NSColor = NSColor.blueColor() {
+    public var color: NSColor = NSColor.blueColor() {
         didSet {
             updateColor()
         }
     }
     
-    var animationColor: NSColor? = nil {
+    public var animationColor: NSColor? = nil {
         didSet {
             updateColor()
         }
     }
     
-    var backgroundColor: NSColor = NSColor.clearColor() {
+    public var backgroundColor: NSColor = NSColor.clearColor() {
         didSet {
             layer?.backgroundColor = backgroundColor.CGColor
         }
     }
     
-    var animating: Bool = false {
+    public var animating: Bool = false {
         didSet {
             if !indeterminate && animating {
                 return
@@ -69,7 +69,7 @@ class RTProgressBar: NSView {
         }
     }
     
-    var indeterminate: Bool = false {
+    public var indeterminate: Bool = false {
         didSet {
             if !indeterminate {
                 animating = false
@@ -80,7 +80,7 @@ class RTProgressBar: NSView {
     }
     
     // MARK: - view lifecycle
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
         //
         wantsLayer = true
@@ -97,7 +97,7 @@ class RTProgressBar: NSView {
         updateLayerAnimated(false)
     }
     
-    override func layout() {
+    override public func layout() {
         super.layout()
         //
         updateLayerAnimated(false)
@@ -108,12 +108,12 @@ class RTProgressBar: NSView {
     }
     
     // MARK: - progress value setters
-    func append(progress: Double, animated: Bool) {
+    public func append(progress: Double, animated: Bool) {
         let value = progressValue + progress
         setProgress(value, animated: animated)
     }
     
-    func setProgress(progress: Double, animated: Bool) {
+    public func setProgress(progress: Double, animated: Bool) {
         // set new value
         progressValue = progress > kRTProgressBarMaxProgressValue ? kRTProgressBarMaxProgressValue : progress
         updateLayerAnimated(animated)
