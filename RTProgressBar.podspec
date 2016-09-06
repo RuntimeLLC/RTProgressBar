@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name = 'RTProgressBar'
-    spec.version = '1.0'
+    spec.version = '1.0.1'
     spec.summary = 'Simple progress bar in swift for macOS'
     spec.description = <<-DESC
     RTProgressBar is a lightweight progress bar for macOS in Swift
