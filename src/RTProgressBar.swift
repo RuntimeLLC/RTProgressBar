@@ -11,13 +11,13 @@ import QuartzCore
 
 let kRTProgressBarMaxProgressValue: Double = 100
 
-public class RTProgressBar: NSView {
+open class RTProgressBar: NSView {
     
-    private let sublayer = CALayer()
-    private let inlayer = CAGradientLayer()
-    private let lock = NSLock()
+    fileprivate let sublayer = CALayer()
+    fileprivate let inlayer = CAGradientLayer()
+    fileprivate let lock = NSLock()
     
-    private var progressValue: Double = 0
+    fileprivate var progressValue: Double = 0
     var progress: Double { // from 0 to 100
         set(value) {
             setProgress(value, animated: false)
@@ -27,25 +27,25 @@ public class RTProgressBar: NSView {
         }
     }
     
-    public var color: NSColor = NSColor.blueColor() {
+    open var color: NSColor = NSColor.blue {
         didSet {
             updateColor()
         }
     }
     
-    public var animationColor: NSColor? = nil {
+    open var animationColor: NSColor? = nil {
         didSet {
             updateColor()
         }
     }
     
-    public var backgroundColor: NSColor = NSColor.clearColor() {
+    open var backgroundColor: NSColor = NSColor.clear {
         didSet {
-            layer?.backgroundColor = backgroundColor.CGColor
+            layer?.backgroundColor = backgroundColor.cgColor
         }
     }
     
-    public var animating: Bool = false {
+    open var animating: Bool = false {
         didSet {
             if !indeterminate && animating {
                 return
@@ -59,45 +59,45 @@ public class RTProgressBar: NSView {
                 animation.duration = 1.5
                 animation.fromValue = inlayer.locations
                 animation.toValue = [0, 1, 1.1, 1.11, 1.12]
-                inlayer.addAnimation(animation, forKey: "locations")
+                inlayer.add(animation, forKey: "locations")
             } else {
                 inlayer.removeAllAnimations()
                 inlayer.locations = nil
                 inlayer.colors = nil
-                inlayer.backgroundColor = color.CGColor
+                inlayer.backgroundColor = color.cgColor
             }
         }
     }
     
-    public var indeterminate: Bool = false {
+    open var indeterminate: Bool = false {
         didSet {
             if !indeterminate {
                 animating = false
             }
-            sublayer.hidden = indeterminate
-            inlayer.hidden = !indeterminate
+            sublayer.isHidden = indeterminate
+            inlayer.isHidden = !indeterminate
         }
     }
     
     // MARK: - view lifecycle
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         //
         wantsLayer = true
-        sublayer.anchorPoint = CGPointZero
-        layer!.backgroundColor = backgroundColor.CGColor
+        sublayer.anchorPoint = CGPoint.zero
+        layer!.backgroundColor = backgroundColor.cgColor
         layer!.addSublayer(sublayer)
-        inlayer.anchorPoint = CGPointZero
+        inlayer.anchorPoint = CGPoint.zero
         inlayer.startPoint = CGPoint(x: 0, y: 0.5)
         inlayer.endPoint = CGPoint(x: 1, y: 0.5)
         inlayer.frame = bounds
         layer!.addSublayer(inlayer)
-        inlayer.hidden = true
+        inlayer.isHidden = true
         updateColor()
         updateLayerAnimated(false)
     }
     
-    override public func layout() {
+    override open func layout() {
         super.layout()
         //
         updateLayerAnimated(false)
@@ -108,26 +108,26 @@ public class RTProgressBar: NSView {
     }
     
     // MARK: - progress value setters
-    public func append(progress: Double, animated: Bool) {
+    open func append(_ progress: Double, animated: Bool) {
         let value = progressValue + progress
         setProgress(value, animated: animated)
     }
     
-    public func setProgress(progress: Double, animated: Bool) {
+    open func setProgress(_ progress: Double, animated: Bool) {
         // set new value
         progressValue = progress > kRTProgressBarMaxProgressValue ? kRTProgressBarMaxProgressValue : progress
         updateLayerAnimated(animated)
     }
     
     // MARK: - inner methods
-    private func updateColor() {
-        sublayer.backgroundColor = color.CGColor
-        let rightColor = animationColor ?? NSColor.clearColor()
+    fileprivate func updateColor() {
+        sublayer.backgroundColor = color.cgColor
+        let rightColor = animationColor ?? NSColor.clear
         let inColor = animating ? rightColor : color
-        inlayer.colors = [color.CGColor, color.CGColor, inColor.CGColor, color.CGColor, color.CGColor]
+        inlayer.colors = [color.cgColor, color.cgColor, inColor.cgColor, color.cgColor, color.cgColor]
     }
     
-    private func updateLayerAnimated(animated: Bool) {
+    fileprivate func updateLayerAnimated(_ animated: Bool) {
         // synchronize
         lock.lock()
         defer {
@@ -139,18 +139,18 @@ public class RTProgressBar: NSView {
         let layerWidth = CGFloat(Double(size.width) * value)
         if animated {
             // add animation
-            let toValue = CGRect(origin: CGPointZero, size: CGSize(width: layerWidth, height: size.height))
+            let toValue = CGRect(origin: CGPoint.zero, size: CGSize(width: layerWidth, height: size.height))
             let animation = CABasicAnimation(keyPath: "frame")
             animation.duration = 0.3
             animation.fromValue = NSValue(rect: sublayer.frame)
             animation.toValue = NSValue(rect: toValue)
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
             sublayer.frame = toValue
-            sublayer.addAnimation(animation, forKey: "frame")
+            sublayer.add(animation, forKey: "frame")
         } else {
             CATransaction.begin()
             CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-            sublayer.frame = CGRect(origin: CGPointZero, size: CGSize(width: layerWidth, height: size.height))
+            sublayer.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: layerWidth, height: size.height))
             CATransaction.commit()
         }
     }

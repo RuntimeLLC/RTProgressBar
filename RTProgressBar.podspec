@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
     spec.name = 'RTProgressBar'
-    spec.version = '1.0.1'
+    spec.version = '2.0.0'
     spec.summary = 'Simple progress bar in swift for macOS'
     spec.description = <<-DESC
     RTProgressBar is a lightweight progress bar for macOS in Swift
@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
     spec.license = 'MIT'
     spec.author = { 'Daniyar Salakhutdinov' => 'bluesbastards@gmail.com' }
     
-    spec.source = { :git => 'https://github.com/RuntimeLLC/RTProgressBar.git', :tag => "v#{spec.version}" }
+    spec.source = { :git => 'https://github.com/RuntimeLLC/RTProgressBar.git', :tag => "#{spec.version}" }
     spec.source_files = 'src'
     spec.frameworks = 'QuartzCore', 'Cocoa'
     

@@ -10,61 +10,55 @@ import Cocoa
 
 class ViewController: NSViewController {
     
-    @IBOutlet private weak var progressBar: RTProgressBar!
-    @IBOutlet private weak var startButton: NSButton!
+    @IBOutlet fileprivate weak var progressBar: RTProgressBar!
+    @IBOutlet fileprivate weak var startButton: NSButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         progressBar.color = NSColor(calibratedRed: 0.1, green: 0.1, blue: 0.8, alpha: 0.6)
-        progressBar.backgroundColor = NSColor.lightGrayColor()
-        progressBar.animationColor = NSColor.whiteColor()
-    }
-
-    override var representedObject: AnyObject? {
-        didSet {
-            // Update the view, if already loaded.
-        }
+        progressBar.backgroundColor = NSColor.lightGray
+        progressBar.animationColor = NSColor.white
     }
     
-    @IBAction func buttonDidClick(sender: NSButton) {
-        startButton.enabled = false
+    @IBAction func buttonDidClick(_ sender: NSButton) {
+        startButton.isEnabled = false
         progressBar.alphaValue = 1
         progressBar.progress = 0
         startProgressIteration()
     }
     
-    @IBAction func checkBoxDidClick(sender: NSButton) {
-        startButton.enabled = true
+    @IBAction func checkBoxDidClick(_ sender: NSButton) {
+        startButton.isEnabled = true
         let indeterminate = sender.state == NSOnState
         progressBar.indeterminate = indeterminate
     }
     
     // MARK: - dealing with progress
-    private func startProgressIteration() {
+    fileprivate func startProgressIteration() {
         if progressBar.indeterminate {
             progressBar.animating = true
         } else {
             let value = Double(arc4random_uniform(5) + 8)
-            let delay = NSTimeInterval(arc4random_uniform(15)) / 10
+            let delay = TimeInterval(arc4random_uniform(15)) / 10
             appendProgress(value, afterDelay: delay)
         }
     }
     
-    private func appendProgress(progress: Double, afterDelay delay: NSTimeInterval) {
+    fileprivate func appendProgress(_ progress: Double, afterDelay delay: TimeInterval) {
         // calculate time
         let interval = Int64(UInt64(delay) * NSEC_PER_SEC)
-        let time = dispatch_time(DISPATCH_TIME_NOW, interval)
-        dispatch_after(time, dispatch_get_main_queue()) {
+        let time = DispatchTime.now() + Double(interval) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time) {
             self.appendProgress(progress)
         }
     }
     
-    private func appendProgress(progress: Double) {
+    fileprivate func appendProgress(_ progress: Double) {
         progressBar.append(progress, animated: true)
         if progressBar.progress >= 100 {
             NSAnimationContext.runAnimationGroup({ context in
                 self.progressBar.animator().alphaValue = 0
-                self.startButton.enabled = true
+                self.startButton.isEnabled = true
                 context.duration = 0.3
             }, completionHandler: nil)
         } else {
